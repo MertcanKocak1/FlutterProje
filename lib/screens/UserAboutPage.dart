@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/Components/appBar.dart';
+import 'package:proje/Components/drawerComponent.dart';
 import 'package:proje/classes/CarOwner.dart';
 
 import 'details.dart';
@@ -20,11 +21,8 @@ class _UserPageState extends State{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Kiralama Uygulaması"),
-        backgroundColor: Color.fromRGBO(187, 121, 237, 0.8),
-      ),
-
+      appBar: appBar("Kullanıcı"),
+      drawer: drawerComponent(context),
     );
   }
 }

@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/Components/Arabalar.dart';
+import 'package:proje/Components/drawerComponent.dart';
 import 'package:proje/classes/CarOwner.dart';
 import 'package:proje/screens/UserAboutPage.dart';
 import 'package:proje/Components/UserLoggedInAppBar.dart';
 import 'package:proje/screens/details.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'file:///C:/Users/inuxe/AndroidStudioProjects/proje/lib/services/auth.dart';
 
-class HomePage1 extends StatefulWidget {
-  HomePage1({Key key, this.baslik}) : super(key: key);
+import 'adminNewCarPage.dart';
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.baslik}) : super(key: key);
   final String baslik;
 
   @override
@@ -20,7 +26,6 @@ class HomePage1 extends StatefulWidget {
 class _HomePageState extends State {
   List<Araba> arabalar = new List<Araba>();
   List<CarOwner> carOwner = new List<CarOwner>();
-
   _HomePageState() {
     arabalar.add(new Araba("Nissan Qasqai", 350, 2, "assets/araba.png",
         "Az Kullanılmış Uzun Mesafe Gidebilir", "Ankara", "Tolga Koçak"));
@@ -38,8 +43,6 @@ class _HomePageState extends State {
         "Ferrari için bir açıklama yazmama gerek yok",
         "Ankara",
         "Tolga Koçak"));
-    carOwner.add(
-        new CarOwner("Mertcan", "Koçak", "53535333", "Ankara", arabalar[0]));
   }
 
   Widget ArabaYapici(BuildContext ctx, int index) {
@@ -110,46 +113,9 @@ class _HomePageState extends State {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text("Ana Sayfa"),
+        title: Text("Anasayfa"),
         backgroundColor: Color.fromRGBO(187, 121, 237, 0.8),
-      ),drawer: Drawer(
-          child: ListView(
-            children: [
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(187, 121, 237, 0.6),
-                ),
-                accountName: Text("Mertcan", style: TextStyle(fontSize: 20),),
-                accountEmail: Text("kocakmertcan0@gmail.com" , style: TextStyle(fontSize: 16),),
-                currentAccountPicture: Icon(Icons.supervised_user_circle ),
-              ),
-              ListTile(
-                title: Text("Hakkımda"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => UserPage(context)));
-                },
-              ),
-              ListTile(
-                title: Text("Ayarlar"),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => UserPage(context)));
-                },
-              ),
-              ListTile(
-                title: Text("Çıkış Yap"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => UserPage(context)));
-                },
-              ),
-            ],
-          ),
-        ),
+      ),drawer: drawerComponent(context),
       body: Center(
         child: Stack(
           children: <Widget>[
