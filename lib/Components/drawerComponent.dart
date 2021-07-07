@@ -8,7 +8,6 @@ import '../services/auth.dart';
 
 Widget drawerComponent(context) {
   final email = AuthService().currentUser();
-  final uid = AuthService().currentUserId();
   return Drawer(
     child: ListView(
       children: [
@@ -35,7 +34,7 @@ Widget drawerComponent(context) {
           onTap: () {
             Navigator.of(context).pop();
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserPage(context)));
+                MaterialPageRoute(builder: (context) => UserPage(email.toString())));
           },
         ),
         ListTile(
@@ -51,7 +50,7 @@ Widget drawerComponent(context) {
           onTap: () {
             Navigator.pop(context);
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserPage(context)));
+                MaterialPageRoute(builder: (context) => SettingsPage()));
           },
         ),
         ListTile(

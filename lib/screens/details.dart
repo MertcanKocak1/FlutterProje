@@ -1,35 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/Components/Arabalar.dart';
 import 'package:proje/screens/UserAboutPage.dart';
 
 class Details extends StatefulWidget {
-  Araba _araba;
+  DocumentSnapshot _mypost;
 
-  Details(Araba araba) {
-    _araba = araba;
+  Details(DocumentSnapshot mypost) {
+    _mypost = mypost;
   }
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _DetailsState(_araba);
+    return _DetailsState(_mypost);
   }
 }
 
 class _DetailsState extends State {
-  Araba araba;
-
-  _DetailsState(Araba araba) {
-    this.araba = araba;
+  DocumentSnapshot _mypost;
+  _DetailsState(DocumentSnapshot _mypost) {
+    this._mypost = _mypost;
   }
-
+  String mail = "";
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text(araba.baslik),
+        title: Text(_mypost['baslik']),
         backgroundColor: Color.fromRGBO(187, 121, 237, 0.5),
       ),
       body: Center(
@@ -38,13 +38,13 @@ class _DetailsState extends State {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Hero(
-              tag: araba,
+              tag: _mypost,
               child: Container(
                 height: 250,
                 width: double.infinity,
                 child: FittedBox(
-                    child: Image.asset(
-                  araba.resim,
+                    child: Image.network(
+                  _mypost['resim'],
                   fit: BoxFit.fill,
                 )),
               )),
@@ -56,13 +56,13 @@ class _DetailsState extends State {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(araba.baslik,
+                  Text(_mypost['baslik'],
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                   Divider(
                     thickness: 2,
                   ),
-                  Text(araba.sehir,
+                  Text(_mypost['sehir'],
                       style: TextStyle(
                         fontSize: 20,
                       )),
@@ -72,33 +72,36 @@ class _DetailsState extends State {
                   GestureDetector(
                     child: Text(
                         "Kiralıyan Kişi : " +
-                            araba.kiraliyacakKisi ,
+                            _mypost['kiraliyanKisi'] ,
                         style: TextStyle(
                           fontSize: 20,
                         )),
                     onTap: () {
+                      setState(() {
+                        mail = _mypost['kiraliyanKisi'].toString();
+                      });
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserPage(context)));
+                          MaterialPageRoute(builder: (context) => UserPage(mail)));
                     },
                   ),
                   Divider(
                     thickness: 2,
                   ),
-                  Text("Araç " + araba.kisi.toString() + " kişiliktir",
+                  Text("Araç " + _mypost['kisiSayisi'].toString() + " kişiliktir",
                       style: TextStyle(
                         fontSize: 20,
                       )),
                   Divider(
                     thickness: 2,
                   ),
-                  Text(araba.aciklama,
+                  Text(_mypost['aciklama'],
                       style: TextStyle(
                         fontSize: 20,
                       )),
                   Divider(
                     thickness: 2,
                   ),
-                  Text("Günlük Fiyatı : " + araba.fiyat.toString(),
+                  Text("Günlük Fiyatı : " + _mypost['fiyat'].toString(),
                       style: TextStyle(
                         fontSize: 20,
                       )),
