@@ -142,6 +142,7 @@ class _NewCarState extends State {
             Icon(
               Icons.image,
               size: 30,
+
               color: Colors.blue,
             ),
             Text("Resim Seçiniz ")
